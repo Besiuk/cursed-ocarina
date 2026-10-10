@@ -1,95 +1,70 @@
-![Ship of Harkinian](docs/shiptitle.darkmode.png#gh-dark-mode-only)
-![Ship of Harkinian](docs/shiptitle.lightmode.png#gh-light-mode-only)
+# Cursed Ocarina
 
-* [Website](https://www.shipofharkinian.com)
-* [Discord](https://discord.com/invite/harbourmasters)
+**A chaos mod for [Ship of Harkinian](https://github.com/HarbourMasters/Shipwright).**
+Throw a Deku Nut, roll the dice, and see what Hyrule does to you.
 
-If you're having any trouble after reading through this `README`, feel free to ask for help in the Support text channels. Please keep in mind that we do not condone piracy.
+> ⚠️ **Work in progress.** Cursed Ocarina is an early, experimental fan project. Expect bugs, crashes, unfinished effects and placeholder texts (lots of *lorem ipsum*). Save often, and do not use it on a save file you care about.
 
-# Quick Start
 
-The Ship does not include any copyrighted assets.  You are required to provide a supported copy of the game.
+---
 
-### 1. Verify your ROM dump
-You can verify you have dumped a supported copy of the game by using the compatibility checker at https://ship.equipment/. If you'd prefer to manually validate your ROM dump, you can cross-reference its `sha1` hash with the hashes [here](docs/supportedHashes.json).
+## What is this?
 
-### 2. Download The Ship of Harkinian from [Releases](https://github.com/HarbourMasters/Shipwright/releases)
+Cursed Ocarina turns *Ocarina of Time* into a chaos game. It is inspired by [Cursed Halo](https://steamcommunity.com/sharedfiles/filedetails/?id=2962107814), where the game keeps throwing random, silly and sometimes deadly surprises at you, and brings that spirit to Hyrule.
 
-### 3. Launch the Game!
-#### Windows
-* Extract the zip
-* Launch `soh.exe`
+The idea is simple:
 
-#### Linux
-* Execute `soh.appimage`.  You may have to `chmod +x` the appimage via terminal.
-* When prompted, select your supported copy of the game.
-* Saves, settings and `oot.o2r` are stored in `~/.local/share/soh/`. If the folder you launch from already has `shipofharkinian.json`, `oot.o2r` or `oot-mq.o2r`, that folder is used instead. Set `SHIP_HOME` to choose another folder.
+- The **Deku Nut is a die.** Whenever a nut hits the ground, a random effect from the pool of enabled effects is triggered right at the impact point.
+- Some of your **equipment is cursed too**: it behaves differently from the base game.
 
-#### macOS
-* Run `soh.app`. When prompted, select your supported copy of the game.
-* You should see a notification saying `Processing OTR`, then, once the process is complete, you should get a notification saying `OTR Successfully Generated`, then the game should start.
+Everything is built on top of Ship of Harkinian and lives in its own folder, so it stays easy to find and to remove:
 
-### 4. Play!
+```
+soh/soh/Enhancements/cursed/
+```
 
-Congratulations, you are now sailing with the Ship of Harkinian! Have fun!
+## What to expect
 
-# Configuration
+The list grows and changes all the time, so this is only a rough taste. None of it is final.
 
-### Default keyboard configuration
-| N64 | A | B | Z | Start | Analog stick | C buttons | D-Pad |
-| - | - | - | - | - | - | - | - |
-| Keyboard | X | C | Z | Space | WASD | Arrow keys | TFGH |
+**Dice effects**, for example:
+- Swarms of cuccos (friendly, angry, or giant), Redeads screaming at you, rolling Gorons, wild dogs
+- Beloved NPC arrive as allies to the battlefield 
+- Changes to Link and the world: giant or minish Link, moon gravity, reversed controls, an orbiting Navi that never shuts up
 
-### Other shortcuts
-| Keys | Action |
-| - | - |
-| ESC | Toggle menu |
-| F2 | Toggle capture mouse input |
-| F5 | Save state |
-| F6 | Change state |
-| F7 | Load state |
-| F9 | Toggle Text-to-Speech |
-| F11 | Fullscreen |
-| Tab | Toggle Alternate assets |
-| Ctrl+R | Reset |
+**Cursed equipment**, for example:
+- The **Kokiri Sword** is now the *Modern Zelda Sword*
+- The **Boomerang** has an identity crisis
+- The **spin attack** does not know when to stop
+- The **Deku Stick** is a *Totally regular stick*. Until it touches fire.
 
-# Project Overview
-Ship of Harkinian (SOH) is built atop a custom library dubbed libultraship (LUS). Back in the N64 days, there was an SDK distributed to developers named libultra; LUS is designed to mimic the functionality of libultra on modern hardware. In addition, we are dependent on the source code provided by the OOT decompilation project.
+## Building
 
-In order for the game to function, you will require a **legally acquired** ROM for Ocarina of Time. Click [here](https://ship.equipment/) to check the compatibility of your specific rom. Any copyrighted assets are extracted from the ROM and reformatted as a .o2r archive file which the code uses.
+Cursed Ocarina is not a separate program, it is a modified Ship of Harkinian. Build it like SoH, following the [building instructions](docs/BUILDING.md).
 
-### Graphics Backends
-Currently, there are three rendering APIs supported: DirectX11 (Windows), OpenGL (all platforms), and Metal (MacOS). You can change which API to use in the `Settings` menu of the menubar, which requires a restart.  If you're having an issue with crashing, you can change the API in the `shipofharkinian.json` file by finding the line `gfxbackend:""` and changing the value to `sdl` for OpenGL. DirectX 11 is the default on Windows.
+A few things to know:
+- Run CMake again whenever source files are added or removed.
+- Some effects use custom textures. They are packed into `soh.o2r` by the `GenerateSohOtr` target, so rebuild that target after adding or changing assets.
+- A few small edits in the original SoH sources are needed for some features (Kokiri sword, Stick Saber). They are marked with `Cursed_` function names.
 
-# Custom Assets
+## Playing Ship of Harkinian
 
-Custom assets are packed in `.otr` archive files. To use custom assets, place them in the `mods` folder.
+You need your own, legally acquired copy of *Ocarina of Time*. Neither Ship of Harkinian nor this mod ships any copyrighted assets. You can check your ROM at [ship.equipment](https://ship.equipment/) and find the general setup instructions in the [original Ship of Harkinian README](https://github.com/HarbourMasters/Shipwright#readme).
 
-If you're interested in creating and/or packing your own custom asset `.otr` files, check out the following tools:
-* [**retro - OTR generator**](https://github.com/HarbourMasters64/retro)
-* [**fast64 - Blender plugin**](https://github.com/HarbourMasters/fast64)
+Default keyboard layout and the usual SoH shortcuts (`Esc` for the menu, `F11` for fullscreen, ...) are unchanged.
 
-# Development
-### Building
+## Credits
 
-If you want to manually compile SoH, please consult the [building instructions](docs/BUILDING.md).
+Cursed Ocarina would not exist without the people behind these projects:
 
-### Playtesting
-If you want to playtest a continuous integration build, you can find them at the links below. Keep in mind that these are for playtesting only, and you will likely encounter bugs and possibly crashes. 
+- **[Ship of Harkinian](https://www.shipofharkinian.com)** by the HarbourMasters team and all of its contributors. See the full [credits](docs/CREDITS.md).
+- **[libultraship](https://github.com/Kenix3/libultraship/)**, the library Ship of Harkinian is built on.
+- The **[Ocarina of Time decompilation project](https://github.com/zeldaret/oot)**, whose work makes all of this possible.
+- **Cursed Halo**, for the inspiration.
 
-* [Windows](https://nightly.link/HarbourMasters/Shipwright/workflows/generate-builds/develop/soh-windows.zip)
-* [macOS](https://nightly.link/HarbourMasters/Shipwright/workflows/generate-builds/develop/soh-mac.zip)
-* [Linux](https://nightly.link/HarbourMasters/Shipwright/workflows/generate-builds/develop/soh-linux.zip)
+This is an unofficial fan project. It is not affiliated with or endorsed by Nintendo, the Ship of Harkinian team, or the makers of Cursed Halo. Please do not ask the Ship of Harkinian support channels for help with this mod, and please do not condone piracy.
 
-### Further Reading
-More detailed documentation can be found in the 'docs' directory, including the aforementioned [building instructions](docs/BUILDING.md).
-
-* [Credits](docs/CREDITS.md)
-* [Custom Music](docs/CUSTOM_MUSIC.md)
-* [Formatting](docs/FORMATTING.md)
-* [Controller Mapping](docs/GAME_CONTROLLER_DB.md)
-* [Modding](docs/MODDING.md)
-* [Versioning](docs/VERSIONING.md)
+This project is also developed with the help of Claude. First drafts of the code are generated by AI and are then edited by human fingertips until it all falls into the right place.
 
 <a href="https://github.com/Kenix3/libultraship/">
   <picture>
