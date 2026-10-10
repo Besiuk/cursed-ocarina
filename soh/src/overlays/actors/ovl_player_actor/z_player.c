@@ -9094,7 +9094,10 @@ s32 func_80842AC4(PlayState* play, Player* this) {
     return 0;
 }
 
+extern void Cursed_OnSwordHit(PlayState* play, Player* player);
+
 s32 func_80842B7C(PlayState* play, Player* this) {
+    Cursed_OnSwordHit(play, this);
     if (this->heldItemAction == PLAYER_IA_SWORD_BIGGORON) {
         if (!gSaveContext.bgsFlag && (gSaveContext.swordHealth > 0.0f)) {
             if ((gSaveContext.swordHealth -= 1.0f) <= 0.0f) {

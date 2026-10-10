@@ -6,6 +6,8 @@
 #include "soh/Enhancements/game-interactor/GameInteractor_Hooks.h"
 #include <libultraship/bridge/consolevariablebridge.h>
 
+extern int Cursed_IsKokiriSwordBroken(void);
+
 static u8 sChildUpgrades[] = { UPG_BULLET_BAG, UPG_BOMB_BAG, UPG_STRENGTH, UPG_SCALE };
 static u8 sAdultUpgrades[] = { UPG_QUIVER, UPG_BOMB_BAG, UPG_STRENGTH, UPG_SCALE };
 
@@ -832,8 +834,12 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
             } else if ((i == 0) && (k == 2) && (gBitFlags[bit + 1] & gSaveContext.inventory.equipment)) {
                 KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx, gItemIconBrokenGiantsKnifeTex, 32, 32, point);
             } else if (gBitFlags[bit] & gSaveContext.inventory.equipment) {
-                KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx, gItemIcons[itemId], 32, 32, point);
-            }
+    int iconItem = itemId;
+    if (itemId == ITEM_SWORD_KOKIRI && Cursed_IsKokiriSwordBroken()) {
+        iconItem = ITEM_SWORD_BROKEN;
+    }
+    KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx, gItemIcons[iconItem], 32, 32, point);
+}
             gSPGrayscale(POLY_OPA_DISP++, false);
         }
     }
